@@ -1,0 +1,38 @@
+{
+  "name": "invopassenger",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "docker-down-all": "docker-compose down",
+    "docker-up-all": "docker-compose up -d",
+    "docker-up-api": "docker-compose up api",
+    "docker-up-web": "docker-compose up web"
+  },
+  "keywords": [
+    "nodejs"
+  ],
+  "author": "Paolo Reyes",
+  "license": "ISC",
+  "dependencies": {
+    "lint-staged": "^11.2.3"
+  },
+  "devDependencies": {
+    "husky": "^4.3.0",
+    "prettier": "^2.4.1",
+    "prettier-eslint": "^13.0.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,ts}": [
+      "eslint --fix"
+    ],
+    "*.{json,scss,css,md}": [
+      "prettier --write"
+    ]
+  }
+}

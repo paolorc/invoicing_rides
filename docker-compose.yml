@@ -1,0 +1,45 @@
+#All ${..} are coming from .env file, this should only exist in production ready containers
+version: '3.9'
+
+services:
+  # web:
+  #   build: ./web
+  #   container_name: web
+  #   command: ['npm', 'start']
+  #   depends_on:
+  #     - api
+  #   environment:
+  #     PORT: ${WEB_CONTAINER_PORT}
+  #   ports:
+  #     - ${WEB_PORT}:${WEB_CONTAINER_PORT}
+  #   restart: always
+  #   volumes:
+  #     - ./web:/usr/src/app
+
+  # api:
+  #   build: ./api
+  #   container_name: api
+  #   command: ['nmp', 'start']
+  #   depends_on:
+  #     - db
+  #   environment:
+  #     API_PREFIX: '/api'
+  #     PORT: ${API_CONTAINER_PORT}
+  #   ports:
+  #     - ${API_PORT}:${API_CONTAINER_PORT}
+  #   restart: always
+  #   volumes:
+  #     - ./api:/usr/src/app
+
+  db:
+    image: mariadb
+    command: --init-file /data/application/init.sql
+    ports:
+      - 3309:3306
+    environment:
+      MYSQL_USER: 'root'
+      MYSQL_DATABASE: 'invo_passenger'
+      MYSQL_ROOT_PASSWORD: 'toor'
+    volumes:
+      - ./tools/mariadb/init.sql:/data/application/init.sql
+      - ./tools/mariadb/conf.d:/etc/mysql/conf.d
