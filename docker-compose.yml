@@ -16,22 +16,50 @@ services:
   #   volumes:
   #     - ./web:/usr/src/app
 
-  # api:
-  #   build: ./api
-  #   container_name: api
-  #   command: ['nmp', 'start']
-  #   depends_on:
-  #     - db
-  #   environment:
-  #     API_PREFIX: '/api'
-  #     PORT: ${API_CONTAINER_PORT}
-  #   ports:
-  #     - ${API_PORT}:${API_CONTAINER_PORT}
-  #   restart: always
-  #   volumes:
-  #     - ./api:/usr/src/app
+  api-dev:
+    container_name: api-dev
+    image: api-dev:1.0.0
+    build:
+      context: ./api
+      target: development
+      dockerfile: ./Dockerfile
+    command: npm run start:debug
+    depends_on:
+      - db
+    environment:
+      API_PREFIX: '/api'
+      PORT: ${API_CONTAINER_PORT}
+    ports:
+      - ${API_PORT}:${API_CONTAINER_PORT}
+      - 9229:9229
+    volumes:
+      - ./api:/usr/src/app
+      - /usr/src/app/node_modules
+    restart: unless-stopped
+
+  api-prod:
+    container_name: api-prod
+    image: api-prod:1.0.0
+    build:
+      context: ./api
+      target: production
+      dockerfile: ./Dockerfile
+    command: npm run start:prod
+    depends_on:
+      - db
+    environment:
+      API_PREFIX: '/api'
+      PORT: ${API_CONTAINER_PORT}
+    ports:
+      - ${API_PROD_PORT}:${API_CONTAINER_PORT}
+      - 9230:9230
+    volumes:
+      - ./api:/usr/src/app
+      - /usr/src/app/node_modules
+    restart: unless-stopped
 
   db:
+    container_name: api-db
     image: mariadb
     command: --init-file /data/application/init.sql
     ports:

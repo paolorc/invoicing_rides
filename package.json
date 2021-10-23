@@ -4,10 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "docker-down-all": "docker-compose down",
-    "docker-up-all": "docker-compose up -d",
-    "docker-up-api": "docker-compose up api",
-    "docker-up-web": "docker-compose up web"
+    "app-down": "docker-compose down",
+    "app-up": "docker-compose up -d",
+    "app-up:service": "docker-compose up -d --"
   },
   "keywords": [
     "nodejs"
@@ -30,9 +29,6 @@
   "lint-staged": {
     "*.{js,ts}": [
       "eslint --fix"
-    ],
-    "*.{json,scss,css,md}": [
-      "prettier --write"
     ]
   }
 }
