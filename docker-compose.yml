@@ -2,19 +2,21 @@
 version: '3.9'
 
 services:
-  # web:
-  #   build: ./web
-  #   container_name: web
-  #   command: ['npm', 'start']
-  #   depends_on:
-  #     - api
-  #   environment:
-  #     PORT: ${WEB_CONTAINER_PORT}
-  #   ports:
-  #     - ${WEB_PORT}:${WEB_CONTAINER_PORT}
-  #   restart: always
-  #   volumes:
-  #     - ./web:/usr/src/app
+  web-dev:
+    container_name: web-dev
+    image: web-dev:1.0.0
+    build:
+      context: ./web
+      target: development
+      dockerfile: ./Dockerfile
+    command: npm start
+    depends_on:
+      - api-dev
+    ports:
+      - ${WEB_PORT}:${WEB_CONTAINER_PORT}
+    volumes:
+      - ./web:/usr/src/app
+    restart: unless-stopped
 
   api-dev:
     container_name: api-dev
@@ -59,7 +61,7 @@ services:
     restart: unless-stopped
 
   db:
-    container_name: api-db
+    container_name: api-mariadb
     image: mariadb
     command: --init-file /data/application/init.sql
     ports:
