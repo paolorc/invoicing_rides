@@ -12,6 +12,8 @@ services:
     command: npm start
     depends_on:
       - api-dev
+    environment:
+      API_HOST: api-dev
     ports:
       - ${WEB_PORT}:${WEB_CONTAINER_PORT}
     volumes:
@@ -27,10 +29,12 @@ services:
       dockerfile: ./Dockerfile
     command: npm run start:debug
     depends_on:
-      - db
+      - mariadb
     environment:
+      API_PORT: ${API_CONTAINER_PORT}
       API_PREFIX: '/api'
-      PORT: ${API_CONTAINER_PORT}
+      DB_HOST: ${DB_HOSTNAME}
+      DB_PORT: ${DB_PORT}
     ports:
       - ${API_PORT}:${API_CONTAINER_PORT}
       - 9229:9229
@@ -48,10 +52,12 @@ services:
       dockerfile: ./Dockerfile
     command: npm run start:prod
     depends_on:
-      - db
+      - mariadb
     environment:
+      API_PORT: ${API_CONTAINER_PORT}
       API_PREFIX: '/api'
-      PORT: ${API_CONTAINER_PORT}
+      DB_HOST: ${DB_HOSTNAME}
+      DB_PORT: ${DB_PORT}
     ports:
       - ${API_PROD_PORT}:${API_CONTAINER_PORT}
       - 9230:9230
@@ -60,8 +66,8 @@ services:
       - /usr/src/app/node_modules
     restart: unless-stopped
 
-  db:
-    container_name: api-mariadb
+  mariadb:
+    container_name: ${DB_HOSTNAME}
     image: mariadb
     command: --init-file /data/application/init.sql
     ports:

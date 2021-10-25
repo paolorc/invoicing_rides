@@ -1,0 +1,3 @@
+id;name;lastName;vehicleBrand;vehicleRegistrationNumber;vehicleYear;taxPayerNumber;status
+1;Eddy;Smith;Toyota;HNF-343;2019;83748723423;active
+2;Raul;Quintanilla;Nissan;PPO-003;2020;47774387343;active
