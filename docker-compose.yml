@@ -34,7 +34,7 @@ services:
       API_PORT: ${API_CONTAINER_PORT}
       API_PREFIX: '/api'
       DB_HOST: ${DB_HOSTNAME}
-      DB_PORT: ${DB_PORT}
+      DB_PORT: ${DB_CONTAINER_PORT}
     ports:
       - ${API_PORT}:${API_CONTAINER_PORT}
       - 9229:9229
@@ -48,11 +48,11 @@ services:
     image: mariadb
     command: --init-file /data/application/init.sql
     ports:
-      - 3309:3306
+      - ${DB_PORT}:${DB_CONTAINER_PORT}
     environment:
-      MYSQL_USER: 'root'
-      MYSQL_DATABASE: 'invo_passenger'
-      MYSQL_ROOT_PASSWORD: 'toor'
+      MYSQL_USER: ${DB_USER}
+      MYSQL_DATABASE: '${DB_SCHEMA}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
     volumes:
       - ./tools/mariadb/init.sql:/data/application/init.sql
       - ./tools/mariadb/conf.d:/etc/mysql/conf.d

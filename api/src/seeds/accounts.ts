@@ -8,7 +8,7 @@ export const initialAccounts = [
     email: 'paolo.reyes.2911@gmail.com',
     phoneNumber: '943692616',
     role: 'passenger',
-    password: 'thebeatco',
+    password: 'changeIt',
   },
   {
     id: 2,
@@ -17,6 +17,15 @@ export const initialAccounts = [
     email: 'renzo.rojas@thebeat.co',
     phoneNumber: '999434993',
     role: 'passenger',
-    password: 'thebeatco',
+    password: 'changeIt',
+  },
+  {
+    id: 3,
+    name: 'Juan',
+    lastName: 'Reyes',
+    email: 'admin@thebeat.co',
+    phoneNumber: '999999300',
+    role: 'admin',
+    password: 'changeIt!',
   },
 ] as Account[];
