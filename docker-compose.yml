@@ -2,24 +2,6 @@
 version: '3.9'
 
 services:
-  web-dev:
-    container_name: web-dev
-    image: web-dev:1.0.0
-    build:
-      context: ./web
-      target: development
-      dockerfile: ./Dockerfile
-    command: npm start
-    depends_on:
-      - api-dev
-    environment:
-      API_HOST: api-dev
-    ports:
-      - ${WEB_PORT}:${WEB_CONTAINER_PORT}
-    volumes:
-      - ./web:/usr/src/app
-    restart: unless-stopped
-
   api-dev:
     container_name: api-dev
     image: api-dev:1.0.0

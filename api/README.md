@@ -49,7 +49,7 @@ $ npm run start:prod
 
 ## Test
 
-Due to a bit of lack of time to develop every unit test and coverage, we have only integration tests from the most critical the modules and endpoints.
+Due to a bit of lack of time to develop every unit test and coverage, I made some integration tests that are the starting point to continue adding more on that way.
 
 ```bash
 # e2e tests
