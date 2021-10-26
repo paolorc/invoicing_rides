@@ -13,12 +13,15 @@ NestJs let us to have a small setup boilerplate to start adding some logic and c
 - docker-compose
 
 ### To Run the project follow the next commands
+
 - clone the repository into your computer
-- create a `.env` in the root directory with the same values as `.env.dev` example
+- create a `.env` in the root project directory with the same values as `.env.dev` example
+- run `npm install` from the root project directory
 - run the command `npm run app-up` and wait till all images are downloaded and builded
 - Go to to `` website on your browser to see the index page and have some fun!
 
 ### Login as a passenger
+
 - username: `paolo.reyes.2911@gmail.com`
 - password: changeIt!
 
@@ -26,6 +29,7 @@ NestJs let us to have a small setup boilerplate to start adding some logic and c
 - password: changeIt!
 
 ### Login as an admin
+
 - username: `admin@thebeat.co`
 - password: changeIt!
 
