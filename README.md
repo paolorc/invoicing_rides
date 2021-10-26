@@ -2,5 +2,8 @@
 
 ### Requirements
 
-- node `>14.18.0`
+- node > 14.18.0
+- npm > 6.14
 - mariadb
+- docker
+- docker-compose

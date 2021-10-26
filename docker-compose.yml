@@ -43,29 +43,6 @@ services:
       - /usr/src/app/node_modules
     restart: unless-stopped
 
-  api-prod:
-    container_name: api-prod
-    image: api-prod:1.0.0
-    build:
-      context: ./api
-      target: production
-      dockerfile: ./Dockerfile
-    command: npm run start:prod
-    depends_on:
-      - mariadb
-    environment:
-      API_PORT: ${API_CONTAINER_PORT}
-      API_PREFIX: '/api'
-      DB_HOST: ${DB_HOSTNAME}
-      DB_PORT: ${DB_PORT}
-    ports:
-      - ${API_PROD_PORT}:${API_CONTAINER_PORT}
-      - 9230:9230
-    volumes:
-      - ./api:/usr/src/app
-      - /usr/src/app/node_modules
-    restart: unless-stopped
-
   mariadb:
     container_name: ${DB_HOSTNAME}
     image: mariadb
