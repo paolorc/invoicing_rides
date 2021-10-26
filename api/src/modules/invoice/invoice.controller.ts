@@ -41,8 +41,8 @@ export class InvoiceController {
   @HttpCode(HttpStatus.OK)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Get('/')
-  findAll(@Query() params: InvoicesDTO) {
-    return this.invoiceService.findAll(params);
+  findAll(@Auth() account: Account, @Query() params: InvoicesDTO) {
+    return this.invoiceService.findAll(account, params);
   }
 
   @HttpCode(HttpStatus.OK)

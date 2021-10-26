@@ -13,5 +13,5 @@
     "baseUrl": "src",
     "incremental": true
   },
-  "include": ["test-data/*", "src"]
+  "include": ["test-data/*", "src", "test"]
 }

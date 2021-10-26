@@ -8,7 +8,33 @@
 $ npm install
 ```
 
+## Description
+
+```
+This is the backend project from a web portal to allow current passengers users from a taxi app, to connect and see their rides to have the capability to select and send it to be invoiced.
+There are passengers user where are allowed to connect and see their rides, create invoices, see the status of their invoicing process.
+There are admin users who can see all invoices created and can download it to later send it to our national regulator of taxes.
+```
+
+## Tech Stack:
+
+REST, to develop our API's. \
+We used `mariadb` as our main database as we want to have strong relations between tables and also have the possibility to manage transactions procedures.\
+We used docker to have our app containerized and ready to deploy.\
+We used node with NestJS for our amazing development.
+
+## Before running the app
+
+- We recommend to create your own `.env` file in root directory of the `api` project with the values from `.env.example`.
+- Make sure you have running a mariadb database with a schema name of `invo_passenger`
+
+## Consideration from this project
+
+I put tons of effort in code quality, structure, separations of concerns, decoupled files and dependencies to give a easy to read code and simple incoming changes in near future.
+
 ## Running the app
+
+All in port: `3000`
 
 ```bash
 # development
@@ -23,27 +49,15 @@ $ npm run start:prod
 
 ## Test
 
-```bash
-# unit tests
-$ npm run test
+Due to a bit of lack of time to develop every unit test and coverage, we have only integration tests from the most critical the modules and endpoints.
 
+```bash
 # e2e tests
 $ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
 ```
 
-## Support
+## TODO
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](LICENSE).
+- This is using a basic `JWT` integration and we are not hashing our password at this time, I will take some time to add this small but big security thing when I get a chance later =)
+- Add more unit testing, but for now we are fine covering core logic.
+- what else? Maybe new features like rides expenses by month or whatever range of dates.

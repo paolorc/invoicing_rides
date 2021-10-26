@@ -11,7 +11,11 @@ export function arrayPaginate(
   page_size: number,
   page_number: number,
 ) {
-  return array.slice((page_number - 1) * page_size, page_number * page_size);
+  const offset = page_size * (page_number - 1);
+  const totalPages = Math.ceil(array.length / page_size);
+  const paginatedItems = array.slice(offset, page_size * page_number);
+
+  return paginatedItems;
 }
 
 export class Pagination<T> {

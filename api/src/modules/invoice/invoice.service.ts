@@ -16,6 +16,7 @@ import AppLog from 'logger/logger.service';
 import { InvoicesDTO } from './types/dto/invoices.dto';
 import { Pagination } from 'lib/pagination';
 import { json2csvAsync } from 'json-2-csv';
+import { AccountRoles } from 'modules/account/types/enum/roles';
 
 @Injectable()
 export class InvoiceService {
@@ -146,10 +147,14 @@ export class InvoiceService {
     return em.save(history);
   }
 
-  async findAll(params: InvoicesDTO) {
+  async findAll(account: Account, params: InvoicesDTO) {
     const { page, limit } = params;
 
+    const accountFilter =
+      account.role === AccountRoles.Passenger ? { where: { account } } : {};
+
     const [invoices, count] = await this.invoiceRepo.findAndCount({
+      ...accountFilter,
       order: { createdAt: 'DESC' },
       take: limit,
       skip: (page - 1) * limit,

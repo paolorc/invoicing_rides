@@ -51,7 +51,7 @@ services:
       - ${DB_PORT}:${DB_CONTAINER_PORT}
     environment:
       MYSQL_USER: ${DB_USER}
-      MYSQL_DATABASE: s${DB_SCHEMA}
+      MYSQL_DATABASE: ${DB_SCHEMA}
       MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
     volumes:
       - ./tools/mariadb/init.sql:/data/application/init.sql

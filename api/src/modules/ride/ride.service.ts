@@ -2,7 +2,7 @@ import { ConfigService } from '@nestjs/config';
 import { Injectable } from '@nestjs/common';
 import { join } from 'path';
 
-import { arrayPaginate, PaginatedDTO, Pagination } from 'lib/pagination';
+import { arrayPaginate, Pagination } from 'lib/pagination';
 import { readFileStream } from 'lib/csv';
 
 import { formatMapper } from './utils/csvMapper';
@@ -56,9 +56,9 @@ export class RideService {
       rows = this.filterByPassenger(rows, passengerId);
     }
 
-    rows = arrayPaginate(rows, limit, page);
+    const rowsToShow = arrayPaginate(rows, limit, page);
 
-    return new Pagination<IRide>(rows, rows.length, page, limit);
+    return new Pagination<IRide>(rowsToShow, rows.length, page, limit);
   }
 
   findAllByAccount(account: Account, params: RidesDTO) {
@@ -67,7 +67,7 @@ export class RideService {
     const rows = this.filterByPassenger(this.allRides, account.id);
     const rowsToShow = arrayPaginate(rows, limit, page);
 
-    return new Pagination<IRide>(rowsToShow, rowsToShow.length, page, limit);
+    return new Pagination<IRide>(rowsToShow, rows.length, page, limit);
   }
 
   findById(id: string): IRide {

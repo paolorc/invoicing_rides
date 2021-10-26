@@ -1,0 +1,18 @@
+export const mockPassengerRide = {
+  id: 'c1dfb1da-a78c-4afd-b7f3-2b7be8a9375d',
+  driverId: 2,
+  passengerId: 2,
+  serviceType: 'Beat',
+  date: '2021-10-10T02:15:30.000Z',
+  fare: 21.2,
+  serviceFee: 0,
+  amount: 0,
+  currencyCode: 'PEN',
+  currencySymbol: 'S/',
+  dropoffTime: '2021-10-10T02:15:30.000Z',
+  dropoffAddress: 'Cavalini 486, San Borja 2302, Peru',
+  pickupTime: '2021-10-10T02:15:30.000Z',
+  pickupAddress: 'Av. Angamos 1559, Surquillo 15048, Peru',
+  tenancy: 'testing',
+  status: 'CANCELED',
+};
