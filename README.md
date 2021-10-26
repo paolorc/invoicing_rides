@@ -23,10 +23,10 @@ NestJs let us to have a small setup boilerplate to start adding some logic and c
 ### Login as a passenger
 
 - username: `paolo.reyes.2911@gmail.com`
-- password: changeIt!
+- password: changeIt
 
 - username: `renzo.rojas@thebeat.co`
-- password: changeIt!
+- password: changeIt
 
 ### Login as an admin
 
