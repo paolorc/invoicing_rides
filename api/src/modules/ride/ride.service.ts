@@ -2,7 +2,7 @@ import { ConfigService } from '@nestjs/config';
 import { Injectable } from '@nestjs/common';
 import { join } from 'path';
 
-import { arrayPaginate, Pagination } from 'lib/pagination';
+import { arrayPaginate, PaginatedDTO, Pagination } from 'lib/pagination';
 import { readFileStream } from 'lib/csv';
 
 import { formatMapper } from './utils/csvMapper';
@@ -10,6 +10,8 @@ import { RidesDTO } from './types/dto/rides.dto';
 
 import AppLog from 'logger/logger.service';
 import { RideStatus } from './types/enum/rideStatus';
+import { Account } from 'modules/account/entities/account.entity';
+import { AccountRoles } from 'modules/account/types/enum/roles';
 
 @Injectable()
 export class RideService {
@@ -41,8 +43,13 @@ export class RideService {
     }
   }
 
-  findAll(params: RidesDTO) {
+  findAll(account: Account, params: RidesDTO) {
     const { page, limit, passengerId } = params;
+
+    if (account.role === AccountRoles.Passenger) {
+      return this.findAllByAccount(account, params);
+    }
+
     let rows = [...this.allRides];
 
     if (passengerId) {
@@ -52,6 +59,15 @@ export class RideService {
     rows = arrayPaginate(rows, limit, page);
 
     return new Pagination<IRide>(rows, rows.length, page, limit);
+  }
+
+  findAllByAccount(account: Account, params: RidesDTO) {
+    const { page, limit } = params;
+
+    const rows = this.filterByPassenger(this.allRides, account.id);
+    const rowsToShow = arrayPaginate(rows, limit, page);
+
+    return new Pagination<IRide>(rowsToShow, rowsToShow.length, page, limit);
   }
 
   findById(id: string): IRide {

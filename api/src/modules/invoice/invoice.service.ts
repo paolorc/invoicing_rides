@@ -15,7 +15,7 @@ import { InvoiceHistoryStatus } from './types/enum/historyStatus';
 import AppLog from 'logger/logger.service';
 import { InvoicesDTO } from './types/dto/invoices.dto';
 import { Pagination } from 'lib/pagination';
-import e from 'express';
+import { json2csvAsync } from 'json-2-csv';
 
 @Injectable()
 export class InvoiceService {
@@ -35,7 +35,7 @@ export class InvoiceService {
     this.log.setContext(InvoiceService.name);
   }
 
-  async create(data: NewInvoiceDTO) {
+  async create(account: Account, data: NewInvoiceDTO) {
     const connection = getConnection();
     const queryRunner = connection.createQueryRunner();
 
@@ -43,13 +43,6 @@ export class InvoiceService {
       let invoices: Invoice[];
 
       await queryRunner.manager.transaction(async (em) => {
-        // validate account
-        const account = await this.accountRepo.findOne(1);
-
-        if (!account) {
-          return 'No account found';
-        }
-
         // first find if the company already exists by user
         let company = await this.accountCompanyRepo.findOne({
           taxpayerNumber: data.taxpayerNumber,
@@ -72,7 +65,7 @@ export class InvoiceService {
 
         // validate all rides requested were completed
         if (rides.length !== uniqueRidesId.length) {
-          return 'There are few rides where wouldnt be processed, please review the rides selected and try again.';
+          return 'There are few rides that should not be processed, please review the rides selected and try again.';
         }
 
         const pendingPromises = rides.map((ride) => {
@@ -167,5 +160,29 @@ export class InvoiceService {
 
   findOne(id: number) {
     return this.invoiceRepo.findOne(id);
+  }
+
+  async makeCSV() {
+    const delimiter = ';';
+    // will get all the created invoices
+    const invoices = await this.invoiceRepo
+      .createQueryBuilder('invoice')
+      .innerJoin('invoice.account', 'account')
+      .select([
+        'invoice.id',
+        'account.email',
+        'invoice.companyName',
+        'invoice.companyTaxpayerNumber',
+        'invoice.driverTaxPayerNumber',
+        'invoice.rideId',
+        'invoice.rideDate',
+        'invoice.pickUp',
+        'invoice.dropOff',
+        'invoice.amount',
+        'invoice.status',
+      ])
+      .getMany();
+
+    return json2csvAsync(invoices, { delimiter: { field: delimiter } });
   }
 }

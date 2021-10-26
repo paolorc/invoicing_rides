@@ -5,6 +5,9 @@ import {
   FastifyAdapter,
   NestFastifyApplication,
 } from '@nestjs/platform-fastify';
+import { fastifyCookie } from 'fastify-cookie';
+import fastifyCsrf from 'fastify-csrf';
+import { fastifyHelmet } from 'fastify-helmet';
 
 import AppModule from './app.module';
 import Logger from 'logger/logger.service';
@@ -14,6 +17,12 @@ async function bootstrap() {
     AppModule,
     new FastifyAdapter(),
   );
+
+  // security
+  await app.register(fastifyCookie);
+  await app.register(fastifyCsrf);
+  await app.register(fastifyHelmet);
+  app.enableCors();
 
   const configService: ConfigService = app.get(ConfigService);
 

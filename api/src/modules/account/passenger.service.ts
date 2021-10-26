@@ -50,8 +50,4 @@ export class PassengerService {
       );
     }
   }
-
-  async findAll() {
-    return this.allPassengers;
-  }
 }
