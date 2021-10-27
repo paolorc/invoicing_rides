@@ -1,6 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { EntityManager, getConnection, getManager, Repository } from 'typeorm';
+import {
+  EntityManager,
+  getConnection,
+  getManager,
+  In,
+  Repository,
+} from 'typeorm';
 
 import { Account } from 'modules/account/entities/account.entity';
 import { AccountCompany } from 'modules/account/entities/accountCompany.entity';
@@ -69,6 +75,20 @@ export class InvoiceService {
           return 'There are few rides that should not be processed, please review the rides selected and try again.';
         }
 
+        // Only one invoice by ride is allowed
+        const existingInvoices = await em.find(Invoice, {
+          rideId: In(uniqueRidesId),
+        });
+
+        if (existingInvoices.length > 0) {
+          const invoiceIds = existingInvoices.map((inv) => inv.id);
+          throw new Error(
+            `There are existing invoices in progress with id: ${invoiceIds.join(
+              ',',
+            )}`,
+          );
+        }
+
         const pendingPromises = rides.map((ride) => {
           return this.generate(company, account, ride, em);
         });
@@ -100,6 +120,7 @@ export class InvoiceService {
 
     const newInvoice = new Invoice();
     newInvoice.account = account;
+    newInvoice.passengerId = ride.passengerId;
     newInvoice.companyName = company.name;
     newInvoice.companyTaxpayerNumber = company.taxpayerNumber;
     newInvoice.driverTaxPayerNumber = driver.taxPayerNumber;
@@ -169,7 +190,7 @@ export class InvoiceService {
 
   async makeCSV() {
     const delimiter = ';';
-    // will get all the created invoices
+    // will get all the created invoices only
     const invoices = await this.invoiceRepo
       .createQueryBuilder('invoice')
       .innerJoin('invoice.account', 'account')
@@ -186,6 +207,9 @@ export class InvoiceService {
         'invoice.amount',
         'invoice.status',
       ])
+      .where('invoice.status = :invoiceStatus', {
+        invoiceStatus: InvoiceHistoryStatus.Created,
+      })
       .getMany();
 
     return json2csvAsync(invoices, { delimiter: { field: delimiter } });

@@ -20,6 +20,9 @@ export class Invoice {
   account: Account;
 
   @Column()
+  passengerId: number;
+
+  @Column()
   companyName: string;
 
   @Column()

@@ -9,6 +9,8 @@ import { fastifyCookie } from 'fastify-cookie';
 import fastifyCsrf from 'fastify-csrf';
 import { fastifyHelmet } from 'fastify-helmet';
 
+import { HttpExceptionFilter } from 'lib/exceptionFilter';
+
 import AppModule from './app.module';
 import Logger from 'logger/logger.service';
 
@@ -29,6 +31,7 @@ async function bootstrap() {
   app.useLogger(await app.resolve(Logger));
   app.useGlobalPipes(new ValidationPipe({ transform: true }));
   app.setGlobalPrefix(configService.get<string>('http.prefix'));
+  app.useGlobalFilters(new HttpExceptionFilter());
 
   await app.listen(
     configService.get<number>('http.port'),

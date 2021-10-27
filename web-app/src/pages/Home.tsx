@@ -17,7 +17,7 @@ import { useUser } from '../hooks/useUser';
 import { Invoice } from '../components/Invoice';
 import { Ride } from '../components/Ride';
 
-const tabNames = {
+export const tabNames = {
   Rides: 'rides',
   Invoices: 'invoices',
 };
@@ -93,7 +93,11 @@ export function Home() {
                   <Tab value={tabNames.Invoices} label="Invoices" />
                 </Tabs>
 
-                {tab === tabNames.Rides ? <Ride /> : <Invoice />}
+                {tab === tabNames.Rides ? (
+                  <Ride toggleTab={handleChange} />
+                ) : (
+                  <Invoice />
+                )}
               </Box>
             )}
           </Grid>

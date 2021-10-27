@@ -28,6 +28,11 @@ export class invoicesTable1635025571364 implements MigrationInterface {
             isNullable: false,
           },
           {
+            name: 'passengerId',
+            type: 'int',
+            isNullable: false,
+          },
+          {
             name: 'companyName',
             type: 'varchar',
             isNullable: false,
