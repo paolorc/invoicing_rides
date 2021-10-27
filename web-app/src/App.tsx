@@ -1,9 +1,16 @@
 import React from 'react';
-import {BrowserRouter as Router, Route,Switch, Redirect} from 'react-router-dom';
-import { Invoice } from './components/Invoice';
-import { Ride } from './components/Ride';
+import { ThemeProvider } from '@mui/material';
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Redirect,
+} from 'react-router-dom';
+
 import { Home } from './pages/Home';
 import { Login } from './pages/Login';
+
+import theme from './theme';
 
 export const NotFound = () => {
   return <Redirect to="/home" />;
@@ -11,17 +18,15 @@ export const NotFound = () => {
 
 function App() {
   return (
-    <Router>
-
+    <ThemeProvider theme={theme}>
+      <Router>
         <Switch>
           <Route exact path="/login" component={Login} />
           <Route exact path="/home" component={Home} />
-          <Route exact path="/rides" component={Ride} />
-          <Route exact path="/invoices" component={Invoice} />
           <Route component={NotFound} />
         </Switch>
-        
-    </Router>
+      </Router>
+    </ThemeProvider>
   );
 }
 
