@@ -18,7 +18,8 @@ NestJs let us to have a small setup boilerplate to start adding some logic and c
 - create a `.env` in the root project directory with the same values as `.env.dev` example
 - run `npm install` from the root project directory
 - run the command `npm run app-up` and wait till all images are downloaded and builded
-- Go to to `` website on your browser to see the index page and have some fun!
+- move into `web-ap` directory: `cd web-app` and run `npm install && npm start`
+- Go to to `localhost:3000` website on your browser to see the index page and have some fun!
 
 ### Login as a passenger
 
